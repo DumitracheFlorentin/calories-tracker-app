@@ -1,8 +1,45 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import Navigation from '../components/Navigation'
+import { useAuth } from '../store/Auth'
 
 function Register() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const navigate = useNavigate()
+  const { user, isLoading } = useAuth()
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    if (password !== confirmPassword) {
+      alert('Passwords do not match!')
+      return
+    }
+
+    const response = await fetch('http://localhost:3000/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    })
+
+    if (response.ok) {
+      const data = await response.json()
+      console.log('Registration successful:', data)
+      navigate('/')
+    } else {
+      const errorData = await response.json()
+      console.error('Registration failed: ', errorData)
+      alert('Failed to register: ' + errorData.message)
+    }
+  }
+
+  if (user && !isLoading) {
+    return <Navigate to="/" replace={true} />
+  }
+
   return (
     <section className="min-h-screen bg-gray-50">
       <Navigation />
@@ -17,37 +54,23 @@ function Register() {
         </div>
 
         <form
-          action="#"
           className="mx-auto mb-0 mt-8 max-w-sm w-full space-y-4"
+          onSubmit={handleSubmit}
         >
           <div>
             <label htmlFor="email" className="sr-only">
               Email
             </label>
-
             <div className="relative">
               <input
                 type="email"
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-lg border-gray-200 p-4 text-sm shadow-sm"
                 placeholder="Enter email"
+                required
               />
-
-              <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="size-4 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
-                  />
-                </svg>
-              </span>
             </div>
           </div>
 
@@ -55,31 +78,33 @@ function Register() {
             <label htmlFor="password" className="sr-only">
               Password
             </label>
-
             <div className="relative">
               <input
                 type="password"
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-lg border-gray-200 p-4 text-sm shadow-sm"
                 placeholder="Enter password"
+                required
               />
-
-              <span className="absolute inset-y-0 end-0 grid place-content-center px-4"></span>
             </div>
           </div>
 
           <div>
-            <label htmlFor="password" className="sr-only">
-              Password
+            <label htmlFor="confirmPassword" className="sr-only">
+              Confirm Password
             </label>
-
             <div className="relative">
               <input
                 type="password"
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full rounded-lg border-gray-200 p-4 text-sm shadow-sm"
                 placeholder="Confirm password"
+                required
               />
-
-              <span className="absolute inset-y-0 end-0 grid place-content-center px-4"></span>
             </div>
           </div>
 
@@ -93,9 +118,9 @@ function Register() {
 
             <button
               type="submit"
-              className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+              className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white shadow-sm"
             >
-              Sign in
+              Sign Up
             </button>
           </div>
         </form>
