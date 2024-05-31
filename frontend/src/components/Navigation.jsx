@@ -48,13 +48,13 @@ function Navigation() {
             <div className="flex gap-4">
               <Link
                 className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-blue-600"
-                to="/history"
+                to="/reviews"
               >
-                History
+                Reviews
               </Link>
               <Link
                 className="rounded-md bg-blue-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-                to="/profile"
+                to="/reviews"
               >
                 Profile
               </Link>
