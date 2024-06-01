@@ -8,7 +8,7 @@ function Stats() {
 
   return (
     <section className="flex flex-col justify-center items-center w-full mt-5">
-      <span className="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-700">
+      <span className="whitespace-nowrap rounded-full bg-purple-100 mt-5 px-2.5 py-0.5 text-sm text-purple-700">
         Today: {currentDate}
       </span>
       <div className="w-full h-[25rem] rounded-xl px-10 my-5 grid grid-cols-3 gap-10">

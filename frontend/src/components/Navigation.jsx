@@ -35,7 +35,7 @@ function Navigation() {
                 Login
               </Link>
 
-              <div className="hidden sm:flex">
+              <div className="flex">
                 <Link
                   className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-blue-600"
                   to="/register"
