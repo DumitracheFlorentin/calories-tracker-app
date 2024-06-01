@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Modal from './Modal'
 import { useMealStats } from '../store/Meal'
+import { toast } from 'react-toastify'
 
 function CalorieInput({ title, user, onMealChanged }) {
   const { addMeal } = useMealStats()
@@ -41,6 +42,7 @@ function CalorieInput({ title, user, onMealChanged }) {
 
     await addMeal(mealData)
     setModalOpen(false)
+    toast.success('Meal was added!')
   }
 
   return (

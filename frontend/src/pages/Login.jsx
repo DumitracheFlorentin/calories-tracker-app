@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import Navigation from '../components/Navigation'
 import { useAuth } from '../store/Auth'
+import { toast } from 'react-toastify'
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -22,12 +23,11 @@ function Login() {
 
     if (response.ok) {
       const data = await response.json()
-      console.log('Login successful:', data)
       login(data)
       navigate('/')
     } else {
       const errorData = await response.json()
-      console.error('Login failed:', errorData)
+      toast.error(errorData.message)
     }
   }
 

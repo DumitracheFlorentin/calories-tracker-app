@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useReviews } from '../store/Review'
 import { useAuth } from '../store/Auth'
 import Modal from './Modal'
+import { toast } from 'react-toastify'
 
 function ReviewsList() {
   const { reviews, addReview } = useReviews()
@@ -36,6 +37,7 @@ function ReviewsList() {
       userId: user.id,
     })
 
+    toast.success('Review was added!')
     setModalOpen(false)
   }
 
